@@ -101,6 +101,22 @@ export default function Mapinha() {
             Limpar Pontos!
           </button>
         </div>
+
+        {pontos.length === 0 ? (
+          <p>Nenhum ponto adicionado... Clique no mapa para adicionar</p>
+        ) : (
+          <ul className="lista-pontos">
+            {pontosOrdenados.map((p) => (
+              <li key={p.id} className="lista-pontos-item">
+                <span>#{p.id}</span>
+                <span>
+                  {p.lat.toFixed(5)}, {p.lng.toFixed(5)}
+                </span>
+                <span className="dist">{formatarM(p.distanciaM)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <MapContainer
@@ -119,7 +135,20 @@ export default function Mapinha() {
             <Popup>Você está aqui </Popup>
           </Marker>
         )}
+
+        {pontos.map((p) => (
+          <Marker key={p.id} position={[p.lat, p.lng]}>
+            <Popup>
+              <div>
+                <strong>Ponto #{p.id}</strong>
+                <p>Distância: {formatarM(p.distanciaM)}</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+        <ClickHandler onAdd={adicionarPonto} />
       </MapContainer>
     </section>
   );
 }
+0
